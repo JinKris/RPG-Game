@@ -27,7 +27,7 @@ function displayCom(){
     randNum = Math.floor(Math.random() * 3);
 
     if(randNum===0)
-        comBoard.lastChild.setAttribute("src","./img/rock.png").setAttribute("style","width:100px,height:100px");
+        comBoard.lastChild.setAttribute("src","./img/rock.png")
     else if(randNum===1)
         comBoard.lastChild.setAttribute("src","./img/scissors.png");
     else    
