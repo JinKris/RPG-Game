@@ -75,7 +75,7 @@ function count(e){
         document.querySelector('.score_com').innerText = comScore;
 }
 
-/*start*/
+/*rotate r,s,g*/
 function rotate(){
     if(userBoard.children.length===2){
        userBoard.removeChild(userBoard.lastChild)
