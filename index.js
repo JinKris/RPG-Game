@@ -6,111 +6,112 @@ let paper = document.querySelector('.p_btn > img');
 let comBoard = document.querySelector('.game_com')
 let userBoard = document.querySelector('.game_me')
 
-let startBtn = document.querySelector('.start_btn');
+let continueBtn = document.querySelector('.continue_btn');
 let resetBtn = document.querySelector('.reset_btn')
 
-let userScore = document.querySelector('.score_my').innerHTML;
-let uScore = 0;
-let comScore = document.querySelector('.score_com').innerHTML;
-let cScore = 0;
-let randNum = 0;
+let userScore = parseInt(document.querySelector('.score_my').innerText);
+let comScore = parseInt(document.querySelector('.score_com').innerText);
+let userNum = -1;
 
-const bgImg = ["./img/rock.jpg", "./img/scissors.jpg", "./img/p.jpg"];
-
-/* start-btn, reset-btn */
-startBtn.addEventListener('click',rotate);
-let rotation = setInterval(displayCom,1000);
-
-function rotate(){
-    if(userBoard.children.length===2){
-       userBoard.removeChild(userBoard.lastChild)//lastElementChild
-       console.log(userBoard.children.length)
-    }
-    if(userBoard.children.length===1)
-        rotation = setInterval(displayCom,1000);
-        //console.log(userBoard.children.length)
-}
+/* board rotation */
+let rotation = setInterval(displayCom,700);
 
 /*computer*/
 const cImg = document.createElement("img");
+cImg.setAttribute('style','width:120px');
+cImg.setAttribute('style','height:120px');
 comBoard.appendChild(cImg);
 
 function displayCom(){
+    // randNUm:asset => 0:rock, 1:scissors, 2:papper
     randNum = Math.floor(Math.random() * 3);
+
     if(randNum===0)
-        comBoard.lastChild.setAttribute("src","./img/rock.jpg");
+        comBoard.lastChild.setAttribute("src","./img/rock.png").setAttribute("style","width:100px,height:100px");
     else if(randNum===1)
-        comBoard.lastChild.setAttribute("src","./img/scissors.jpg");
+        comBoard.lastChild.setAttribute("src","./img/scissors.png");
     else    
-        comBoard.lastChild.setAttribute("src","./img/p.jpg");
+        comBoard.lastChild.setAttribute("src","./img/p.png");
 }
 
 /*user*/
 const uImg = document.createElement("img");
+uImg.setAttribute('style','width:120px');
+uImg.setAttribute('style','height:120px');
 
 function displayUser(x){
     userBoard.appendChild(uImg);
+
     if(x.target===rock)
-        userBoard.lastChild.setAttribute("src","./img/rock.jpg");
+        userBoard.lastChild.setAttribute("src","./img/rock.png");
     else if(x.target===scissors)
-        userBoard.lastChild.setAttribute("src","./img/scissors.jpg");
+        userBoard.lastChild.setAttribute("src","./img/scissors.png");
     else    
-        userBoard.lastChild.setAttribute("src","./img/p.jpg");
+        userBoard.lastChild.setAttribute("src","./img/p.png");
+
     clearInterval(rotation);
 }
 
-rock.addEventListener('click',displayUser);
-scissors.addEventListener('click',displayUser);
-paper.addEventListener('click',displayUser);
-
 /*count*/
-
-//rock.addEventListener('click',count);
-//scissors.addEventListener('click',count);
-//paper.addEventListener('click',count);
-
 function count(e){
-    setTimeout(function () { clearInterval(rotate) }, 0);
-    let userNum=0;
-    if(e===rock)
-        userNum=0;
-    else if(e===scissors)
-        userNum=1;
-    else
-        userNum=2;
+    // randNUm:asset => 0:rock, 1:scissors, 2:papper
+    //userNum:asset => 0:rock, 1:scissors, 2:papper
+    if(e.target===rock) userNum=0;
+    else if(e.target===scissors)    userNum=1;
+    else    userNum=2;
 
-    //rock=0,scissors=1,paper=2
-    if(randNum===0){
-        if(user===0){
-            userScore++;
-            comScore++;}
-        else if(user===1)
-            comScore++;
-        else
-            userScore++;
-        }else if(randNum===1){
-            if(user===0){
-                userScore++;
-            }
-            else if(user===1){
-                userScore++;
-                comScore++;
-            }
-            else
-                comScore++;
-        }else{
-            if(user===0)
-                comScore++;
-            else if(randNum===1)
-                userScore++;
-            else{
-                userScore++;
-                comScore++;
-            }
-        }
+    //compare
+    if (randNum===0){ //rock
+        if (userNum===1)    comScore=parseInt(comScore)+1;
+        else if(userNum===2)    userScore=parseInt(userScore)+1;
+    }else if(randNum===1){ //scissor
+        if (userNum===0)    userScore=parseInt(userScore)+1;
+        else if(userNum===2)   comScore=parseInt(comScore)+1;
+    }else if(randNum===2) {//papper
+        if (userNum===0)    comScore=parseInt(comScore)+1;
+        else if(userNum===1)  userScore=parseInt(userScore)+1;
+    }
+        document.querySelector('.score_my').innerText = userScore;
+        document.querySelector('.score_com').innerText = comScore;
+}
 
-        document.querySelector('score_my').innerHTML=userScore;
-        document.querySelector('score_com').innerHTML=comScore;
+/*start*/
+function rotate(){
+    if(userBoard.children.length===2){
+       userBoard.removeChild(userBoard.lastChild)
+       console.log(userBoard.children.length)
+    }
+    if(userBoard.children.length===1)   rotation = setInterval(displayCom,1000);
 }
 
 /*reset*/
+function reset(){
+    userScore = 0;
+    comScore = 0;
+    document.querySelector('.score_my').innerText = userScore;
+    document.querySelector('.score_com').innerText = comScore;
+    userNum = -1;
+    rotate();
+}
+
+/*event Listener*/
+window.onload=function(){
+    alert(
+        `
+        1. 타이밍에 맞춰 가위, 바위, 보 중 한개의 버튼을 누르세요
+        2. 게임을 계속 하고 싶다면 continue 버튼을 누르세요
+        3. 게임을 reset 하고 싶다면 reset 버튼을 누르세요
+
+        비길 경우 점수가 오르지 않습니다. `
+    )
+}
+
+continueBtn.addEventListener('click',rotate);
+resetBtn.addEventListener('click',reset);
+
+rock.addEventListener('click',displayUser);
+rock.addEventListener('click',count);
+scissors.addEventListener('click',displayUser);
+scissors.addEventListener('click',count);
+paper.addEventListener('click',displayUser);
+paper.addEventListener('click',count);
