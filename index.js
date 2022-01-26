@@ -15,7 +15,7 @@ let userNum = -1;
 
 /* board rotation */
 let rotation = setInterval(displayCom,700);
-continueBtn.setAttribute('style','background-color:#ffffff;color:#ffffff');
+continueBtn.setAttribute('style','display:none');
 
 /*computer*/
 const cImg = document.createElement("img");
@@ -73,7 +73,7 @@ function count(e){
         document.querySelector('.score_my').innerText = userScore;
         document.querySelector('.score_com').innerText = comScore;
 
-        continueBtn.removeAttribute('style');
+        continueBtn.setAttribute('style','display:block');
 }
 
 /*rotate r,s,g*/
@@ -83,7 +83,7 @@ function rotate(e){
        console.log(userBoard.children.length)
     }
     if(userBoard.children.length===1)   rotation = setInterval(displayCom,800);
-    e.target.setAttribute('style','background-color:#ffffff;color:#ffffff');
+    e.target.setAttribute('style','display:none');
 }
 
 /*reset*/
