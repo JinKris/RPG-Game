@@ -81,7 +81,7 @@ function rotate(){
        userBoard.removeChild(userBoard.lastChild)
        console.log(userBoard.children.length)
     }
-    if(userBoard.children.length===1)   rotation = setInterval(displayCom,1000);
+    if(userBoard.children.length===1)   rotation = setInterval(displayCom,800);
 }
 
 /*reset*/
