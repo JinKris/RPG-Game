@@ -12,6 +12,7 @@ let resetBtn = document.querySelector('.reset_btn')
 let userScore = parseInt(document.querySelector('.score_my').innerText);
 let comScore = parseInt(document.querySelector('.score_com').innerText);
 let userNum = -1;
+let cntToggle = -1;
 
 /* board rotation */
 let rotation = setInterval(displayCom,700);
@@ -61,16 +62,18 @@ function count(e){
     else    userNum=2;
 
     //compare
-    if (randNum===0){ //rock
-        if (userNum===1)    comScore=parseInt(comScore)+1;
-        else if(userNum===2)    userScore=parseInt(userScore)+1;
-    }else if(randNum===1){ //scissor
-        if (userNum===0)    userScore=parseInt(userScore)+1;
-        else if(userNum===2)   comScore=parseInt(comScore)+1;
-    }else if(randNum===2) {//papper
-        if (userNum===0)    comScore=parseInt(comScore)+1;
-        else if(userNum===1)  userScore=parseInt(userScore)+1;
-    }
+    if(cntToggle===-1){
+        if (randNum===0){ //rock
+            if (userNum===1)    comScore=parseInt(comScore)+1;
+            else if(userNum===2)    userScore=parseInt(userScore)+1;
+        }else if(randNum===1){ //scissor
+            if (userNum===0)    userScore=parseInt(userScore)+1;
+            else if(userNum===2)   comScore=parseInt(comScore)+1;
+        }else if(randNum===2) {//papper
+            if (userNum===0)    comScore=parseInt(comScore)+1;
+            else if(userNum===1)  userScore=parseInt(userScore)+1;
+    }   cntToggle = 0;
+}
         document.querySelector('.score_my').innerText = userScore;
         document.querySelector('.score_com').innerText = comScore;
 
@@ -86,6 +89,9 @@ function rotate(e){
        console.log(userBoard.children.length)
     }
     if(userBoard.children.length===1)   rotation = setInterval(displayCom,800);
+
+    cntToggle = -1;
+
     continueBtn.setAttribute('style','display:none');
     resetBtn.setAttribute('style','display:none');
 }
