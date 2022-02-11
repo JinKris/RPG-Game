@@ -107,16 +107,6 @@ function reset(){
 }
 
 /*event Listener*/
-window.onload=function(){
-    alert(
-        `
-        1. 타이밍에 맞춰 가위, 바위, 보 중 한개의 버튼을 누르세요
-        2. 게임을 계속 하고 싶다면 continue 버튼을 누르세요
-        3. 게임을 reset 하고 싶다면 reset 버튼을 누르세요
-
-        비길 경우 점수가 오르지 않습니다. `
-    )
-}
 
 continueBtn.addEventListener('click',rotate);
 resetBtn.addEventListener('click',reset);
